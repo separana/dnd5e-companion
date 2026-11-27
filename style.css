@@ -12,12 +12,18 @@ body{
 header{border-bottom:1px solid var(--soft);background:rgba(11,13,16,.95);backdrop-filter:blur(8px)}
 .wrap{max-width:960px;margin:0 auto;padding:12px 16px}
 .header-flex{display:flex;justify-content:space-between;align-items:center;gap:10px}
-h1{margin:0;font-size:18px}
+.char-identity{display:flex;align-items:center;gap:12px}
+.avatar{
+  width:52px;height:52px;border-radius:14px;object-fit:cover;
+  border:2px solid var(--gold);background:#151c24;flex-shrink:0;
+  box-shadow:0 4px 14px rgba(0,0,0,.5)
+}
+h1{margin:0;font-size:19px}
 .sub{color:var(--muted);font-size:12px;margin-top:2px}
 .muted{color:var(--muted);font-weight:400}
 
 .toolbar{position:sticky;top:0;z-index:9;background:rgba(11,13,16,.94);border-bottom:1px solid var(--soft);backdrop-filter:blur(8px)}
-.tabs{display:flex;gap:6px;overflow-x:auto}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
 .tab{padding:7px 11px;border-radius:10px;border:1px solid var(--soft);background:#121821;color:#cfe0f3;cursor:pointer;font-size:13px;white-space:nowrap}
 .tab.active{border-color:#806b2b;background:linear-gradient(180deg,#292310,#1c180c);color:#f7e7ac;font-weight:700}
 
@@ -39,7 +45,7 @@ main{max-width:960px;margin:0 auto;padding:12px 16px 40px}
 .hp-big{font-size:28px;font-weight:900;margin-top:2px;display:flex;align-items:center;gap:8px}
 .temp-badge{font-size:12px;padding:2px 8px;border-radius:999px;background:rgba(103,183,255,.16);border:1px solid var(--brand);color:#bfe0ff}
 .stat-pills{display:flex;gap:6px}
-.pill{background:#121821;border:1px solid var(--soft);border-radius:10px;padding:6px 10px;display:flex;flex-direction:column;align-items:center;min-width:54px}
+.pill{background:#121821;border:1px solid var(--soft);border-radius:10px;padding:6px 10px;display:flex;flex-direction:column;align-items:center;min-width:52px}
 .pill span{font-size:10px}
 .pill b{font-size:15px;color:#f7e7ac}
 
@@ -47,11 +53,18 @@ main{max-width:960px;margin:0 auto;padding:12px 16px 40px}
 .progress>i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#3ad7a4,#10b981);transition:width .25s ease,background .25s ease}
 .progress.low>i{background:linear-gradient(90deg,#f87171,#dc2626)}
 
+/* Death Saves */
+.death-box{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.4);border-radius:12px;padding:10px 12px;margin-bottom:10px}
+.death-rows{display:flex;gap:16px;flex-wrap:wrap}
+.death-track{display:flex;align-items:center;gap:8px}
+.pip.succ{border-color:var(--ok);background:rgba(58,215,164,.3)}
+.pip.fail{border-color:var(--bad);background:rgba(248,113,113,.3)}
+
 .hp-controls{display:flex;gap:6px;flex-wrap:wrap}
 .hp-controls button{flex:1;min-width:52px}
 .rest-row{display:flex;gap:8px;align-items:center;margin-top:10px;padding-top:10px;border-top:1px dashed var(--soft);flex-wrap:wrap}
 
-/* Ability Grid */
+/* Ability Grid & Skills */
 .ability-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
 @media(max-width:600px){.ability-grid{grid-template-columns:repeat(3,1fr)}}
 .ab-box{background:#121821;border:1px solid var(--soft);border-radius:12px;padding:8px 6px;text-align:center;cursor:pointer}
@@ -60,16 +73,34 @@ main{max-width:960px;margin:0 auto;padding:12px 16px 40px}
 .ab-mod{font-size:19px;font-weight:900;color:#eaf1fa;margin:2px 0}
 .ab-score{font-size:11px;color:#8fa6bf}
 
+.skills-details{margin-top:12px;padding-top:10px;border-top:1px dashed var(--soft)}
+.skills-details summary{cursor:pointer;font-size:13px;font-weight:700;color:#f7e7ac;user-select:none}
+.saves-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+.skills-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-top:8px}
+@media(max-width:540px){.skills-grid{grid-template-columns:1fr}}
+.skill-btn{
+  display:flex;justify-content:space-between;align-items:center;
+  background:#121821;border:1px solid var(--soft);border-radius:9px;
+  padding:7px 10px;font-size:12px;text-align:left
+}
+.skill-btn.prof{border-color:rgba(234,203,107,.45);background:rgba(234,203,107,.06)}
+.skill-btn b{color:#f7e7ac}
+
 /* Resources & Actions */
-.res-list,.act-list,.party-list{display:grid;gap:8px}
+.res-list,.act-list,.party-list,.gear-list{display:grid;gap:8px}
 .res-item{display:flex;justify-content:space-between;align-items:center;background:#121821;border:1px solid var(--soft);border-radius:11px;padding:10px 12px;gap:10px}
 .pips{display:flex;gap:6px}
-.pip{width:24px;height:24px;border-radius:50%;border:2px solid var(--gold);background:rgba(234,203,107,.2);cursor:pointer}
+.pip{width:22px;height:22px;border-radius:50%;border:2px solid var(--gold);background:rgba(234,203,107,.2);cursor:pointer}
 .pip.used{border-color:#3b4b61;background:transparent}
 
 .act-btn{display:flex;justify-content:space-between;align-items:center;text-align:left;background:#121821;border:1px solid var(--soft);border-radius:11px;padding:10px 12px;width:100%}
 .act-btn:hover{border-color:var(--brand)}
 .act-meta{font-size:12px;color:#f7e7ac;font-weight:700}
+
+/* Inventory & Gold */
+.gold-header{display:flex;justify-content:space-between;align-items:center}
+.gold-val{font-size:28px;font-weight:900;color:var(--gold);margin-top:2px}
+.gear-item{display:flex;justify-content:space-between;align-items:center;background:#121821;border:1px solid var(--soft);border-radius:10px;padding:8px 12px;font-size:13px}
 
 /* Dice */
 .dice-result-box{text-align:center;padding:16px;background:#0a0e13;border:1px solid var(--soft);border-radius:12px;margin-bottom:12px}

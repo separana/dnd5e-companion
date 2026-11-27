@@ -7,14 +7,17 @@
   <meta name="theme-color" content="#0b0d10">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/svg+xml" href="icon.svg">
-  <link rel="stylesheet" href="style.css?v=1">
+  <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
   <header>
     <div class="wrap header-flex">
-      <div>
-        <h1>D&amp;D 5e – Tabletop Companion</h1>
-        <div class="sub" id="charSub">Level 3 Human Champion Fighter</div>
+      <div class="char-identity">
+        <img id="charAvatar" src="sam.jpg" alt="Portret" class="avatar">
+        <div>
+          <h1 id="charTitle">Sam</h1>
+          <div class="sub" id="charSub">Level 3 Human Champion Fighter • Folk Hero</div>
+        </div>
       </div>
       <select id="charSelect" aria-label="Kies personage"></select>
     </div>
@@ -23,32 +26,51 @@
   <div class="toolbar">
     <div class="wrap">
       <div class="tabs">
-        <div class="tab active" id="tab-char">Personage &amp; Combat</div>
+        <div class="tab active" id="tab-char">Combat &amp; Skills</div>
+        <div class="tab" id="tab-bag">Inventory &amp; Goud</div>
         <div class="tab" id="tab-dice">Dobbelstenen</div>
-        <div class="tab" id="tab-party">Party &amp; Vijanden</div>
-        <div class="tab" id="tab-rules">Spiekbriefje</div>
+        <div class="tab" id="tab-party">Party</div>
+        <div class="tab" id="tab-rules">Roleplay &amp; Regels</div>
       </div>
     </div>
   </div>
 
   <main>
-    <!-- TAB 1: PERSONAGE & COMBAT -->
+    <!-- TAB 1: COMBAT & SKILLS -->
     <section id="view-char">
       <div class="panel">
         <div class="hp-header">
           <div>
             <div class="label">Hit Points (HP)</div>
-            <div class="hp-big"><span id="curHp">28</span> <span class="muted">/ <span id="maxHp">28</span></span> <span id="tempHpBadge" class="temp-badge" style="display:none">+0 Temp</span></div>
+            <div class="hp-big"><span id="curHp">27</span> <span class="muted">/ <span id="maxHp">27</span></span> <span id="tempHpBadge" class="temp-badge" style="display:none">+0 Temp</span></div>
           </div>
           <div class="stat-pills">
             <div class="pill"><span class="muted">AC</span><b id="statAc">18</b></div>
-            <div class="pill"><span class="muted">Init</span><b id="statInit">+2</b></div>
+            <div class="pill"><span class="muted">Init</span><b id="statInit">+0</b></div>
             <div class="pill"><span class="muted">Prof</span><b id="statProf">+2</b></div>
             <div class="pill"><span class="muted">Speed</span><b id="statSpeed">30 ft</b></div>
           </div>
         </div>
 
         <div class="progress"><i id="hpBar"></i></div>
+
+        <!-- Death Saves (verschijnt automatisch bij 0 HP) -->
+        <div id="deathSavesBox" class="death-box" style="display:none">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <b style="color:#fca5a5;font-size:13px">💀 Death Saving Throws (0 HP)</b>
+            <button id="btnRollDeath" class="primary" style="padding:5px 10px;font-size:12px">Rol Death Save (d20)</button>
+          </div>
+          <div class="death-rows">
+            <div class="death-track">
+              <span class="small" style="color:#6ee7b7;min-width:65px">Success:</span>
+              <div class="pips" id="deathSuccPips"></div>
+            </div>
+            <div class="death-track">
+              <span class="small" style="color:#fca5a5;min-width:65px">Failure:</span>
+              <div class="pips" id="deathFailPips"></div>
+            </div>
+          </div>
+        </div>
 
         <div class="hp-controls">
           <button class="dmg" data-hp="-5">-5</button>
@@ -68,6 +90,12 @@
       <div class="panel">
         <div class="label" style="margin-bottom:8px">Abilities (tik om te rollen)</div>
         <div class="ability-grid" id="abilityGrid"></div>
+
+        <details class="skills-details">
+          <summary>▸ Alle 18 Skills &amp; Saving Throws bekijken (1-klik roll)</summary>
+          <div class="saves-row" id="savesGrid"></div>
+          <div class="skills-grid" id="skillsGrid"></div>
+        </details>
       </div>
 
       <div class="panel">
@@ -81,7 +109,39 @@
       </div>
     </section>
 
-    <!-- TAB 2: DOBBELSTENEN -->
+    <!-- TAB 2: INVENTORY & GOUD -->
+    <section id="view-bag" style="display:none">
+      <div class="panel">
+        <div class="gold-header">
+          <div>
+            <div class="label">Beurs (Gold Pieces)</div>
+            <div class="gold-val"><span id="goldCount">10</span> <span class="muted" style="font-size:16px">GP</span></div>
+          </div>
+          <div style="display:flex;gap:6px">
+            <button class="dmg" data-gp="-5">-5</button>
+            <button class="dmg" data-gp="-1">-1</button>
+            <button class="heal" data-gp="1">+1</button>
+            <button class="heal" data-gp="5">+5</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="label" style="margin-bottom:8px">Munitie &amp; Verbruik (tik - / +)</div>
+        <div id="consumablesList" class="res-list"></div>
+      </div>
+
+      <div class="panel">
+        <div class="label" style="margin-bottom:8px">Wapens, Uitrusting &amp; Persoonlijke Spullen</div>
+        <div id="gearList" class="gear-list"></div>
+        <div class="bar" style="margin-top:10px">
+          <input id="newGearInput" type="text" placeholder="Nieuw item toevoegen (bv. Healing Potion)..." style="flex:1">
+          <button id="btnAddGear" class="primary">+ Item</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: DOBBELSTENEN -->
     <section id="view-dice" style="display:none">
       <div class="panel">
         <div class="dice-result-box">
@@ -116,7 +176,7 @@
       </div>
     </section>
 
-    <!-- TAB 3: PARTY & VIJANDEN -->
+    <!-- TAB 4: PARTY & VIJANDEN -->
     <section id="view-party" style="display:none">
       <div class="panel">
         <div class="bar">
@@ -129,8 +189,9 @@
       <div id="partyList" class="party-list"></div>
     </section>
 
-    <!-- TAB 4: SPIEKBRIEFJE -->
+    <!-- TAB 5: ROLEPLAY & REGELS -->
     <section id="view-rules" style="display:none">
+      <div class="panel" id="charProfileBox"></div>
       <div class="panel" id="charNotesBox"></div>
       <div class="panel">
         <div class="label" style="margin-bottom:8px">Handige 5e Combat Regels</div>
@@ -144,6 +205,6 @@
   </main>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script src="script.js?v=2" defer></script>
+  <script src="script.js?v=3" defer></script>
 </body>
 </html>

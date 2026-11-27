@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>D&amp;D 5e – Tabletop Companion</title>
+  <meta name="theme-color" content="#0b0d10">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="stylesheet" href="style.css?v=1">
+</head>
+<body>
+  <header>
+    <div class="wrap header-flex">
+      <div>
+        <h1>D&amp;D 5e – Tabletop Companion</h1>
+        <div class="sub" id="charSub">Level 3 Human Champion Fighter</div>
+      </div>
+      <select id="charSelect" aria-label="Kies personage"></select>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <div class="wrap">
+      <div class="tabs">
+        <div class="tab active" id="tab-char">Personage &amp; Combat</div>
+        <div class="tab" id="tab-dice">Dobbelstenen</div>
+        <div class="tab" id="tab-party">Party &amp; Vijanden</div>
+        <div class="tab" id="tab-rules">Spiekbriefje</div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <!-- TAB 1: PERSONAGE & COMBAT -->
+    <section id="view-char">
+      <div class="panel">
+        <div class="hp-header">
+          <div>
+            <div class="label">Hit Points (HP)</div>
+            <div class="hp-big"><span id="curHp">28</span> <span class="muted">/ <span id="maxHp">28</span></span> <span id="tempHpBadge" class="temp-badge" style="display:none">+0 Temp</span></div>
+          </div>
+          <div class="stat-pills">
+            <div class="pill"><span class="muted">AC</span><b id="statAc">18</b></div>
+            <div class="pill"><span class="muted">Init</span><b id="statInit">+2</b></div>
+            <div class="pill"><span class="muted">Prof</span><b id="statProf">+2</b></div>
+            <div class="pill"><span class="muted">Speed</span><b id="statSpeed">30 ft</b></div>
+          </div>
+        </div>
+
+        <div class="progress"><i id="hpBar"></i></div>
+
+        <div class="hp-controls">
+          <button class="dmg" data-hp="-5">-5</button>
+          <button class="dmg" data-hp="-1">-1</button>
+          <button class="heal" data-hp="1">+1</button>
+          <button class="heal" data-hp="5">+5</button>
+          <button id="btnTempHp">+ Temp HP</button>
+        </div>
+
+        <div class="rest-row">
+          <button id="btnShortRest" class="primary">⛺ Short Rest</button>
+          <button id="btnLongRest">🔥 Long Rest</button>
+          <div class="small" style="margin-left:auto">Hit Dice: <b id="hitDiceTxt">3/3 d10</b></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="label" style="margin-bottom:8px">Abilities (tik om te rollen)</div>
+        <div class="ability-grid" id="abilityGrid"></div>
+      </div>
+
+      <div class="panel">
+        <div class="label" style="margin-bottom:8px">Class Resources &amp; Gebruik</div>
+        <div id="resourcesList" class="res-list"></div>
+      </div>
+
+      <div class="panel">
+        <div class="label" style="margin-bottom:8px">Snelle Aanvallen &amp; Acties</div>
+        <div id="actionsList" class="act-list"></div>
+      </div>
+    </section>
+
+    <!-- TAB 2: DOBBELSTENEN -->
+    <section id="view-dice" style="display:none">
+      <div class="panel">
+        <div class="dice-result-box">
+          <div class="small" id="rollFormula">Kies een dobbelsteen of actie</div>
+          <div class="roll-total" id="rollTotal">—</div>
+          <div class="small" id="rollDetail"></div>
+        </div>
+
+        <div class="mode-row">
+          <button class="mode-btn active" data-mode="norm">Normaal</button>
+          <button class="mode-btn" data-mode="adv">Advantage (2d20↑)</button>
+          <button class="mode-btn" data-mode="dis">Disadvantage (2d20↓)</button>
+        </div>
+
+        <div class="dice-grid">
+          <button class="die-btn" data-die="20">d20</button>
+          <button class="die-btn" data-die="12">d12</button>
+          <button class="die-btn" data-die="10">d10</button>
+          <button class="die-btn" data-die="8">d8</button>
+          <button class="die-btn" data-die="6">d6</button>
+          <button class="die-btn" data-die="4">d4</button>
+          <button class="die-btn" data-die="100">d100</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <div class="label">Roll Geschiedenis</div>
+          <button id="btnClearLog" style="padding:4px 9px;font-size:12px">Wissen</button>
+        </div>
+        <div id="rollLog" class="roll-log"></div>
+      </div>
+    </section>
+
+    <!-- TAB 3: PARTY & VIJANDEN -->
+    <section id="view-party" style="display:none">
+      <div class="panel">
+        <div class="bar">
+          <input id="newMemberName" type="text" placeholder="Naam (bv. Lore Bard / Goblin 1)" style="flex:1;min-width:140px">
+          <input id="newMemberHp" type="number" placeholder="Max HP" style="width:85px">
+          <input id="newMemberAc" type="number" placeholder="AC" style="width:70px">
+          <button id="btnAddMember" class="primary">+ Toevoegen</button>
+        </div>
+      </div>
+      <div id="partyList" class="party-list"></div>
+    </section>
+
+    <!-- TAB 4: SPIEKBRIEFJE -->
+    <section id="view-rules" style="display:none">
+      <div class="panel" id="charNotesBox"></div>
+      <div class="panel">
+        <div class="label" style="margin-bottom:8px">Handige 5e Combat Regels</div>
+        <div class="rule-item"><b>Beurt-opbouw:</b> 1 Movement + 1 Action + evt. 1 Bonus Action + 1 Reaction (buiten je beurt, bv. Opportunity Attack).</div>
+        <div class="rule-item"><b>Shove Prone + Grapple combo:</b> Vervang 1 aanval door <i>Shove</i> (Athletics vs. Athletics/Acrobatics) om doelwit Prone te duwen (melee aanvallen hebben Advantage). Gebruik daarna <i>Grapple</i> zodat snelheid 0 wordt en hij niet kan opstaan.</div>
+        <div class="rule-item"><b>Help Actie:</b> Geef een bondgenoot Advantage op de eerstvolgende aanval tegen een vijand binnen 5 ft van jou.</div>
+        <div class="rule-item"><b>Dodge Actie:</b> Aanvallen tegen jou hebben Disadvantage tot je volgende beurt, en je hebt Advantage op Dexterity saves.</div>
+        <div class="rule-item"><b>Death Saves:</b> Op 0 HP rol je elke beurt een kale d20: 10+ = succes (3x = stabiel), 9 of lager = faal (3x = dood). Natuurlijke 20 = direct terug met 1 HP!</div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="script.js?v=1" defer></script>
+</body>
+</html>

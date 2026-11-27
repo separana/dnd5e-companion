@@ -2,22 +2,24 @@ const CHARACTERS = {
   sam: {
     name: 'Sam',
     sub: 'Level 3 Human Champion Fighter • Folk Hero',
-    maxHp: 28, ac: 18, init: 2, prof: 2, speed: '30 ft',
+    maxHp: 27, ac: 18, init: 0, prof: 2, speed: '30 ft',
     hitDie: 'd10', maxHitDice: 3, critRange: 19,
-    stats: { STR: 16, DEX: 14, CON: 14, INT: 10, WIS: 12, CHA: 10 },
+    stats: { STR: 13, DEX: 10, CON: 13, INT: 10, WIS: 10, CHA: 10 },
     resources: [
       { id: 'second_wind', name: 'Second Wind (Bonus Action: 1d10 + 3 HP)', max: 1, reset: 'short' },
       { id: 'action_surge', name: 'Action Surge (Extra Action in beurt)', max: 1, reset: 'short' }
     ],
     actions: [
-      { name: 'Longsword (Dueling)', atkBonus: 5, dmgDice: '1d8', dmgBonus: 5, note: 'Slashing • Crit op 19-20!' },
+      { name: 'Longsword (Dueling)', atkBonus: 3, dmgDice: '1d8', dmgBonus: 3, note: 'Slashing • +1 STR +2 Dueling • Crit op 19-20!' },
+      { name: 'Light Crossbow (80/320 ft)', atkBonus: 2, dmgDice: '1d8', dmgBonus: 0, note: 'Piercing • Loading, Two-Handed' },
       { name: 'Second Wind Heal', healDice: '1d10', healBonus: 3, note: 'Bonus Action zelfgenezing' },
-      { name: 'Shove / Grapple (Athletics)', skillBonus: 5, note: 'Contested check vs. target' },
-      { name: 'Handaxe (Thrown 20/60 ft)', atkBonus: 5, dmgDice: '1d6', dmgBonus: 3, note: 'Slashing' }
+      { name: 'Shove / Grapple (Athletics)', skillBonus: 1, note: 'Contested check vs. target' },
+      { name: 'Perception / Insight / Survival', skillBonus: 2, note: 'Proficient Wisdom skills (+2)' }
     ],
     notes: [
       '<b>Champion – Improved Critical:</b> Je scoort al een Critical Hit bij een <b>19 of 20</b> op de d20!',
-      '<b>Dueling Fighting Style:</b> +2 schade wanneer je een melee wapen in één hand houdt en geen ander wapen draagt (al meegerekend in Longsword 1d8+5).',
+      '<b>Dueling Fighting Style:</b> +2 schade wanneer je een melee wapen in één hand houdt en geen ander wapen draagt (al meegerekend in Longsword 1d8+3).',
+      '<b>Saving Throws:</b> Strength <b>+3</b>, Constitution <b>+3</b> (overige saves +0).',
       '<b>Second Wind & Action Surge:</b> Komen allebei terug na een <b>Short Rest</b> (1 uur).'
     ]
   },
